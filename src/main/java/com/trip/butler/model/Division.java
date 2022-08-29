@@ -3,6 +3,8 @@ package com.trip.butler.model;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -17,6 +19,7 @@ public class Division {
 
     @ManyToOne
     @JoinColumn(name = "section_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Section section;
 
     private String divisionName;

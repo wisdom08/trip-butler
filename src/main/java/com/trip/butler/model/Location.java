@@ -2,6 +2,8 @@ package com.trip.butler.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,6 +18,7 @@ public class Location {
 
     @ManyToOne
     @JoinColumn(name = "news_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private News news;
 
     private String location;

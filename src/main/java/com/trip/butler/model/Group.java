@@ -2,6 +2,8 @@ package com.trip.butler.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,6 +18,7 @@ public class Group {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Division division;
 
     private String groupName;
