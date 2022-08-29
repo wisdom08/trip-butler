@@ -1,13 +1,13 @@
-package com.trip.butler;
+package com.news;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TripButlerApplication {
+public class YourNewsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TripButlerApplication.class, args);
+        SpringApplication.run(YourNewsApplication.class, args);
     }
 
 }
