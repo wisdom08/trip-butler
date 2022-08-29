@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-@Entity
+@Entity (name= "Groups")
 @NoArgsConstructor
 @Getter
 public class Group {
@@ -17,7 +17,7 @@ public class Group {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "division_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Division division;
 
