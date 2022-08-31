@@ -1,4 +1,4 @@
-package com.trip.butler.model;
+package com.news.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +10,10 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Location {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "location_id")
+    @Column(name= "person_id")
     private Long id;
 
     @ManyToOne
@@ -21,5 +21,5 @@ public class Location {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private News news;
 
-    private String location;
+    private String person;
 }

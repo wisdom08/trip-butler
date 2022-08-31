@@ -1,4 +1,4 @@
-package com.trip.butler.model;
+package com.news.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,14 +7,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-
 @Entity
 @NoArgsConstructor
 @Getter
-public class Organization {
+public class Keyword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "organization_id")
+    @Column(name= "keyword_id")
     private Long id;
 
     @ManyToOne
@@ -22,5 +21,5 @@ public class Organization {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private News news;
 
-    private String organization;
+    private String keyword;
 }

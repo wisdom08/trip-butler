@@ -1,4 +1,4 @@
-package com.trip.butler.model;
+package com.news.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
