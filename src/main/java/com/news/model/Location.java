@@ -1,6 +1,5 @@
-package com.trip.butler.model;
+package com.news.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -11,16 +10,16 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Division {
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "division_id")
+    @Column(name= "location_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "section_id")
+    @JoinColumn(name = "news_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Section section;
+    private News news;
 
-    private String divisionName;
+    private String location;
 }
