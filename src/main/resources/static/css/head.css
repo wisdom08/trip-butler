@@ -83,6 +83,7 @@ img:hover {
 footer{
     background-color: #F2F2F2;
     position: fixed;
+    left: 0;
     bottom: 0;
     width: 100vw;
 }
@@ -152,3 +153,35 @@ footer{
         position: relative;
     }
 }
+
+ #page-wrapper {
+     padding-left: 250px;
+     height: 80%;
+ }
+
+#sidebar-wrapper {
+    position: fixed;
+    width: 250px;
+    height: 80%;
+    margin-left: -250px;
+    background: white;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    padding: 20px;
+}
+
+.sidebar-nav {
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.checkbox-span {
+    float: right;
+}
+
