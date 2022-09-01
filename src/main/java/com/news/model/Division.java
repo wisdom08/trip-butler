@@ -1,4 +1,4 @@
-package com.trip.butler.model;
+package com.news.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,19 +7,19 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-@Entity (name= "Groups")
+@Entity
 @NoArgsConstructor
 @Getter
-public class Group {
+public class Division {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "group_id")
+    @Column(name= "division_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "division_id")
+    @JoinColumn(name = "section_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Division division;
+    private Section section;
 
-    private String groupName;
+    private String divisionName;
 }
