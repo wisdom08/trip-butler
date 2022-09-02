@@ -1,5 +1,6 @@
 package com.news.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.news.model.News;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class NewsDto {
     private Long id;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
     private String press;
     private String author;

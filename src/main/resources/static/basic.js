@@ -1,42 +1,42 @@
 console.log("test")
 
-$(document).ready(function() {
-    getNewsList();
+$(document).ready(function () {
+    $('#search-input').on('keypress', function (e) {
+        if (e.key == 'Enter') {
+            getNewsList();
+        }
+    });
 })
 
-function getNewsList() {
-    $.ajax({
-        type: 'GET',
-        url: '/search',
-        success: function (response) {
-            for (let i = 0; i < response.length; i++) {
-                let message = response[i];
-                let id = message['id'];
-                let date = message['date'];
-                let press = message['press'];
-                let author = message['author'];
-                let title = message['title'];
-                let contents = message['contents'];
-                let url = message['url'];
-                let keyword = message['keyword'];
-                let location = message['location'];
-                let organization = message['organization'];
-                addHTML(id, title, author, contents, press, date, url, keyword, location, organization);
-            }
+    function getNewsList() {
+        let keyword = $('#search-input').val();
+        if (keyword == '') {
+            alert('검색어를 입력해주세요.');
+            $('#search-input').focus();
+            return;
         }
-    })
-}
 
-function addHTML(id, title, author, contents, press, date, url, keyword, location, organization) {
-    let tempHtml = `<div class="card" id="${id}-list">
+        $.ajax({
+            type: 'GET',
+            url: `/search?keyword=${keyword}`,
+            success: function (response) {
+                for (let i = 0; i < response.length; i++) {
+                    let newsDto = response[i];
+                    addHTML(newsDto);
+                }
+            }
+        })
+    }
+
+    function addHTML(newsDto) {
+        let tempHtml = `<div class="card" id="${newsDto.id}-list">
                                 <div class="card-body">
-                                    <h5 class="card-title">${title}</h5>
-                                    <p class="card-text">${contents}</p>
-                                    <p class="card-text"><small class="text-muted">${date}</small></p>
-                                    <p class="card-text"><small class="text-muted">${url}</small></p>
-                                    <p class="card-text"><small class="text-muted">${keyword}</small></p>
-                                    <p class="card-text"><small class="text-muted">${location}</small></p>
-                                    <p class="card-text"><small class="text-muted">${organization}</small></p>
+                                <h5 class="card-title">${newsDto.title}</h5>
+                                    <p class="card-text">${newsDto.contents}</p>
+                                    <p class="card-text"><small class="text-muted">${newsDto.date}</small></p>
+                                    <p class="card-text"><small class="text-muted">나중에 카테고리 넣기</small></p>
+                                    <p class="card-text"><small class="text-muted">${newsDto.press}</small></p>
+                                    <p class="card-text"><small class="text-muted">${newsDto.author}</small></p>
                                 </div>
                             </div>`
     $('#news_list').append(tempHtml);
