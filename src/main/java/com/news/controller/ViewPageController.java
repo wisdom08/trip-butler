@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ViewPageController {
     @GetMapping("/resultpage")
     public String getPage(){
-        return "resultpage";
+        return "result";
     }
 }
