@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ViewPageController {
-    @GetMapping("/resultpage")
-    public String getPage(){
+    @GetMapping("/result")
+    public String getPage() {
         return "result";
     }
 }
