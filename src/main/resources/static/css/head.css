@@ -73,7 +73,12 @@ section {
     width: 25px;
     height: 25px;
     margin-top: 6px;
+}
 
+.btm_image {
+    border: transparent;
+    padding: 0;
+    background-color: white;
 }
 
 img:hover {

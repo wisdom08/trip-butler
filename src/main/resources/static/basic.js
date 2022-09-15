@@ -33,6 +33,14 @@ $(document).ready(function () {
     });
 })
 
+$(document).ready(function () {
+    $('.btm_image').click(function () {
+        // checkCheckboxes();
+            getNewsList();
+          });
+})
+
+
 function getNewsList() {
     let keyword = $('#search-input').val();
     if (keyword == '') {
