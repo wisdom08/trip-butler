@@ -1,10 +1,7 @@
 package com.news.repository;
 
-import com.news.model.News;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.news.document.News;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import java.util.List;
-
-public interface NewsRepository extends JpaRepository<News, Long> {
-    List<News>  findAllByKeywordContainingOrderByDateDesc(String keyword);
+public interface NewsRepository extends ElasticsearchRepository<News, String> {
 }

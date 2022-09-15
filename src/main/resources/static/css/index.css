@@ -14,7 +14,7 @@ a:hover {
     text-decoration: underline;
 }
 
-#header{
+#header {
     display: flex;
     justify-content: flex-end;
 }
@@ -26,7 +26,7 @@ a:hover {
     margin-right: 10px;
 }
 
-ul>img {
+ul > img {
     padding: 0 8px;
 }
 
@@ -81,7 +81,7 @@ img:hover {
     cursor: pointer
 }
 
-footer{
+footer {
     background-color: #F2F2F2;
     position: fixed;
     bottom: 0;
@@ -94,17 +94,17 @@ footer{
     margin-top: 17px;
 }
 
-#footer-left{
+#footer-left {
     display: flex;
     justify-self: start;
-    padding-left:20px;
+    padding-left: 20px;
     align-items: center;
 }
 
 #footer-right {
     display: flex;
     justify-content: flex-end;
-    padding-right:20px;
+    padding-right: 20px;
     align-items: center;
 }
 
@@ -113,11 +113,11 @@ footer{
         flex-direction: column;
     }
 
-    #footer-left{
+    #footer-left {
         justify-content: center;
     }
 
-    #footer-right{
+    #footer-right {
         justify-content: center;
     }
 
@@ -127,7 +127,7 @@ footer{
 }
 
 @media (max-height: 522px) {
-    body{
+    body {
         overflow-x: hidden;
     }
 
@@ -140,8 +140,8 @@ footer{
     }
 }
 
-@media (max-height:570px) and (max-width: 630px) {
-    body{
+@media (max-height: 570px) and (max-width: 630px) {
+    body {
         overflow-x: hidden;
     }
 
