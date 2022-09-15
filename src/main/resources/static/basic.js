@@ -27,7 +27,7 @@ console.log("test")
 $(document).ready(function () {
     $('#search-input').on('keypress', function (e) {
         if (e.key == 'Enter') {
-            checkCheckboxes();
+            // checkCheckboxes();
             getNewsList();
         }
     });
