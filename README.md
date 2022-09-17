@@ -1,5 +1,8 @@
 # your-news
 
+## 배포
+- http://www.your-news.site
+
 ## 개발 기간
 - 2022.08.26 ~ 2022.10.06
 
