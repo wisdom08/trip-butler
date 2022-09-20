@@ -1,6 +1,5 @@
 package com.news.jwt;
 
-import com.fasterxml.classmate.AnnotationOverrides;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -25,6 +24,7 @@ public class JwtTokenProvider {
     //jwt 토큰 유효 기간 30분 설정
     private static final long TOKEN_VALID_TIME = 1000L * 60 * 15;
     private static final long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 60 * 24;
+
     private final UserDetailsService userDetailsService;
 
     @PostConstruct
@@ -32,7 +32,6 @@ public class JwtTokenProvider {
         this.secretKey = Base64.getEncoder().encodeToString(this.secretKey.getBytes());
     }
 
-    // jwt 토큰 생성
     public String createToken(String userPk) {
         Claims claims = Jwts.claims().setSubject(userPk);
         Date now = new Date();
