@@ -1,4 +1,4 @@
-package com.news.entity.member;
+package com.news.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;

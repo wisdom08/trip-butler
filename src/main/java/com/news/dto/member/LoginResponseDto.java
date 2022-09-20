@@ -1,4 +1,4 @@
-package com.news.entity.member;
+package com.news.dto.member;
 
 import com.news.entity.Member;
 import com.news.entity.Role;

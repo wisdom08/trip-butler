@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class Member {
 
@@ -17,7 +16,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false, unique = true)
