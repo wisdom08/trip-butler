@@ -1,19 +1,22 @@
 package com.news.dto.member;
 
+import co.elastic.clients.elasticsearch.security.GetTokenRequest;
 import com.news.entity.Member;
 import com.news.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class LoginResponseDto {
 
-    private String nickname;
-    private Role role;
-    private String image_url;
+    private String grantType;
+    private String accessToken;
 
-    public static LoginResponseDto of(Member member) {
-        return new LoginResponseDto(member.getNickname(), member.getRole(), member.getImageUrl());
-    }
+    private String email;
+    private String nickname;
+    private String imageUrl;
+
 }
