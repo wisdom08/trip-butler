@@ -22,6 +22,7 @@ public class MemberResponseDto {
                 member.getId(),
                 member.getEmail(),
                 member.getNickname()
+
         );
     }
 }

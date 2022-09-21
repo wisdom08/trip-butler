@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Getter
-public class Member {
+public class Member extends Timestamped {
 
     @Id
     @Column(name = "member_id")
