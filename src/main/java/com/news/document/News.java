@@ -2,14 +2,12 @@ package com.news.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.Date;
 
-@Document(indexName = "news*")
 @Getter
-@Setter
+@Document(indexName = "news*")
 public class News {
     private String id;
     @JsonFormat(pattern = "yyyy-MM-dd")
