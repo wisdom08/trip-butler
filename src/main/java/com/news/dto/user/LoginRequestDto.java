@@ -1,4 +1,4 @@
-package com.news.dto.member;
+package com.news.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,8 +1,5 @@
-package com.news.dto.member;
+package com.news.dto.user;
 
-import co.elastic.clients.elasticsearch.security.GetTokenRequest;
-import com.news.entity.Member;
-import com.news.entity.Role;
 import lombok.*;
 
 @Getter

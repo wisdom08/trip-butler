@@ -1,15 +1,15 @@
 package com.news.service;
 
 import com.news.dto.TokenDto;
-import com.news.dto.member.LoginRequestDto;
-import com.news.dto.member.LoginResponseDto;
-import com.news.dto.member.MemberRequestDto;
-import com.news.dto.member.MemberResponseDto;
-import com.news.entity.Member;
+import com.news.dto.user.LoginRequestDto;
+import com.news.dto.user.LoginResponseDto;
+import com.news.dto.user.UserRequestDto;
+import com.news.dto.user.UserResponseDto;
 import com.news.entity.RefreshToken;
+import com.news.entity.User;
 import com.news.jwt.TokenProvider;
-import com.news.repository.MemberRepository;
 import com.news.repository.RefreshTokenRepository;
+import com.news.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,32 +20,32 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class UserService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public MemberResponseDto signup(MemberRequestDto memberRequestDto) {
-        if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
+    public UserResponseDto signup(UserRequestDto userRequestDto) {
+        if (userRepository.existsByEmail(userRequestDto.getEmail())) {
             throw new RuntimeException("이미 존재하는 이메일입니다");
         }
-        if (memberRepository.existsByNickname(memberRequestDto.getNickname())) {
+        if (userRepository.existsByNickname(userRequestDto.getNickname())) {
             throw new RuntimeException("이미 존재하는 닉네임입니다");
         }
 
-        Member member = memberRequestDto.toMember(passwordEncoder);
+        User user = userRequestDto.toUser(passwordEncoder);
 
-        return MemberResponseDto.of(memberRepository.save(member));
+        return UserResponseDto.of(userRepository.save(user));
     }
 
     @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
-        Member member = memberRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow();
+        User user = userRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow();
 
         UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication();
 
@@ -61,33 +61,33 @@ public class MemberService {
         return LoginResponseDto.builder()
                 .grantType(tokenDto.getGrantType())
                 .accessToken(tokenDto.getAccessToken())
-                .email(member.getEmail())
-                .nickname(member.getNickname())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
                 .imageUrl(null)
                 .build();
     }
 
     @Transactional
     public void logout(String token) {
-        Member member = getMemberByToken(token);
-        refreshTokenRepository.deleteByKey(member.getId().toString());
+        User user = getUserByToken(token);
+        refreshTokenRepository.deleteByKey(user.getId().toString());
     }
 
-    public Member getMemberByToken(String token) {
+    public User getUserByToken(String token) {
         Authentication authentication = tokenProvider.getAuthentication(token.substring(7));
-        Long MemberId = Long.parseLong(authentication.getName());
-        return memberRepository.findById(MemberId).orElseThrow(() ->
+        Long UserId = Long.parseLong(authentication.getName());
+        return userRepository.findById(UserId).orElseThrow(() ->
                 new IllegalArgumentException("사용자 정보가 없습니다."));
     }
 
     public LoginResponseDto refreshUserInfo(String token) {
 
-        Member member = getMemberByToken(token);
+        User user = getUserByToken(token);
 
         return LoginResponseDto.builder()
-                .email(member.getEmail())
-                .nickname(member.getNickname())
-                .imageUrl(member.getImageUrl())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .imageUrl(user.getImageUrl())
                 .build();
     }
 

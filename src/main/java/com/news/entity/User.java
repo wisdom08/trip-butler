@@ -4,17 +4,16 @@ package com.news.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity
 @Getter
-public class Member extends Timestamped {
+    public class User extends Timestamped {
 
     @Id
-    @Column(name = "member_id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -32,7 +31,7 @@ public class Member extends Timestamped {
     private String imageUrl;
 
     @Builder
-    public Member(String email, String nickname, String password, Role role) {
+    public User(String email, String nickname, String password, Role role) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
