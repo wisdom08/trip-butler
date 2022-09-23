@@ -5,8 +5,11 @@ spring:
     username: root
     password: 1234
 
-    thymeleaf:
-    enabled: false
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
 
   jpa:
     hibernate:
