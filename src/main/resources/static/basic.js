@@ -18,12 +18,6 @@ const checkCheckboxes = () => {
     }
 }
 
-// checkboxValue.checked->true면 value값 모아서 array로 만들고 .push해서 ajax data에 넣어주기
-// eventHandler
-// id로 select해서 값을 가져오기->내용물 가져오고 싶으면 value에다 같은 내용?
-
-console.log("test")
-
 $(document).ready(function () {
     $('#search-input').on('keypress', function (e) {
         if (e.key == 'Enter') {

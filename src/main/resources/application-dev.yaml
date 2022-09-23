@@ -1,12 +1,15 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://localhost:3306/newsdb
     username: root
     password: 1234
 
-    thymeleaf:
-    enabled: false
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
 
   jpa:
     hibernate:
