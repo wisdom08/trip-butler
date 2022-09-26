@@ -1,35 +1,31 @@
 package com.news.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "refresh_token")
+@AllArgsConstructor
+@Builder
 @Entity
-public class RefreshToken {
+public class RefreshToken extends Timestamped {
 
     @Id
-    @Column(name = "rt_key")
-    private String key;
+    @Column(nullable = false)
+    private Long id;
 
-    @Column(name = "rt_value")
-    private String value;
+    @JoinColumn(name = "userId", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @Builder
-    public RefreshToken(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
+    @Column(nullable = false)
+    private String refreshTokenValue;
 
-    public RefreshToken updateValue(String token) {
-        this.value = token;
-        return this;
+    public void updateValue(String token) {
+        this.refreshTokenValue = token;
     }
 }
