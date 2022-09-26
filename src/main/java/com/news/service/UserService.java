@@ -1,5 +1,6 @@
 package com.news.service;
 
+import com.news.dto.ResponseDto;
 import com.news.dto.TokenDto;
 import com.news.dto.user.LoginRequestDto;
 import com.news.dto.user.LoginResponseDto;
@@ -7,6 +8,7 @@ import com.news.dto.user.UserRequestDto;
 import com.news.dto.user.UserResponseDto;
 import com.news.entity.RefreshToken;
 import com.news.entity.User;
+import com.news.error.ErrorCode;
 import com.news.jwt.TokenProvider;
 import com.news.repository.RefreshTokenRepository;
 import com.news.repository.UserRepository;
@@ -18,44 +20,56 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+
     private final RefreshTokenRepository refreshTokenRepository;
 
+
     @Transactional
-    public UserResponseDto signup(UserRequestDto userRequestDto) {
+    public ResponseDto<?> signup(UserRequestDto userRequestDto) {
         if (userRepository.existsByEmail(userRequestDto.getEmail())) {
-            throw new RuntimeException("이미 존재하는 이메일입니다");
+            return ResponseDto.fail(ErrorCode.EMAIL_DUPLICATION);
         }
         if (userRepository.existsByNickname(userRequestDto.getNickname())) {
-            throw new RuntimeException("이미 존재하는 닉네임입니다");
+            return ResponseDto.fail(ErrorCode.NICKNAME_DUPLICATION);
         }
 
         User user = userRequestDto.toUser(passwordEncoder);
-
-        return UserResponseDto.of(userRepository.save(user));
+        userRepository.save(user);
+        return ResponseDto.success("회원가입에 성공하였습니다.");
     }
 
     @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
-        User user = userRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow();
+        //유저 이메일 존재 체크
+        User user = isPresentUser(loginRequestDto.getEmail());
 
-        UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication();
+        //유저 없을시 익셉션 처리
+        if (null == user) {
+            throw new IllegalArgumentException("로그인 정보를 다시 확인해 주세요.");
+        }
 
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        //비밀번호 체크, 실패시 익셉션 처리
+        if (!user.validatePassword(passwordEncoder, loginRequestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호를 다시 확인해 주세요.");
+        }
 
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        TokenDto tokenDto = tokenProvider.generateTokenDto(user);
 
         refreshTokenRepository.save(RefreshToken.builder()
-                .key(authentication.getName())
-                .value(tokenDto.getRefreshToken())
+                .id(user.getId())
+                .user(user)
+                .refreshTokenValue(tokenDto.getRefreshToken())
                 .build());
 
         return LoginResponseDto.builder()
@@ -67,31 +81,42 @@ public class UserService {
                 .build();
     }
 
+    public ResponseDto<?> logout(HttpServletRequest request) {
+        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
+            return ResponseDto.fail(ErrorCode.INVALID_TOKEN);
+        }
+        User user = tokenProvider.getUserFromAuthentication();
+        if (null == user) {
+            return ResponseDto.fail(ErrorCode.LOGIN_STATE_INVALID);
+        }
+
+        return tokenProvider.deleteRefreshToken(user);
+    }
+
     @Transactional
-    public void logout(String token) {
-        User user = getUserByToken(token);
-        refreshTokenRepository.deleteByKey(user.getId().toString());
+    public ResponseDto<?> refresh(HttpServletRequest request) {
+        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
+            return ResponseDto.fail(ErrorCode.INVALID_TOKEN);
+        }
+        User userFromRefreshTokenRepo = tokenProvider.getUserFromRefreshTokenRepo(request.getHeader("Refresh-Token"));
+        // 토큰 재발행
+        TokenDto tokenDto = tokenProvider.generateTokenDto(userFromRefreshTokenRepo);
+
+        return ResponseDto.success(tokenDto);
     }
 
-    public User getUserByToken(String token) {
-        Authentication authentication = tokenProvider.getAuthentication(token.substring(7));
-        Long UserId = Long.parseLong(authentication.getName());
-        return userRepository.findById(UserId).orElseThrow(() ->
-                new IllegalArgumentException("사용자 정보가 없습니다."));
+    @Transactional(readOnly = true)
+    public User isPresentUser(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        return optionalUser.orElse(null);
     }
 
-    public LoginResponseDto refreshUserInfo(String token) {
-
-        User user = getUserByToken(token);
-
-        return LoginResponseDto.builder()
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .imageUrl(user.getImageUrl())
-                .build();
+    @Transactional
+    public boolean existsByEmail(String email){
+        return userRepository.existsByEmail(email);
     }
-
-
-
-
+    @Transactional
+    public boolean existsByNickname(String nickname){
+        return userRepository.existsByNickname(nickname);
+    }
 }

@@ -4,6 +4,7 @@ package com.news.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -13,7 +14,6 @@ import javax.persistence.*;
     public class User extends Timestamped {
 
     @Id
-    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,6 +29,10 @@ import javax.persistence.*;
     @Enumerated(EnumType.STRING)
     private Role role;
     private String imageUrl;
+
+    public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
+        return passwordEncoder.matches(password, this.password);
+    }
 
     @Builder
     public User(String email, String nickname, String password, Role role) {
