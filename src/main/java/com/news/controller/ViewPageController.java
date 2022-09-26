@@ -19,9 +19,4 @@ public class ViewPageController {
     public String getLogin() {
         return "login";
     }
-
-    @GetMapping("/result")
-    public String getResult() {
-        return "result";
-    }
 }

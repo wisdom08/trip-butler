@@ -1,0 +1,56 @@
+<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head.html"></div>
+    <link rel="stylesheet" type="text/css" href="/css/signup.css">
+    <title>로그인 페이지</title>
+</head>
+<body>
+<div id="login-form">
+    <div id="login-title">로그인</div>
+    <div>
+        <button id="login-id-btn" onclick="location.href='/signup'">
+            회원 가입하기
+        </button>
+    </div>
+    <form method="post">
+        <div class="login-id-label">Email</div>
+        <input id="email" type="text" name="username" class="login-input-box">
+        ​
+        <div class="login-id-label">Password</div>
+        <input id="password" type="password" name="password" class="login-input-box">
+    </form>
+    ​
+    <button id="login-id-submit" onclick="click_login()">로그인</button>
+    <div id="login-failed" style="display:none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
+</div>
+</body>
+<script>
+    function click_login() {
+        // 로그인용 data 준비
+        let payload = {email: $('#email').val(), password: $('#password').val()} ;
+        // 로그인 통신
+        $.ajax({
+            type: 'POST',
+            url: '/api/user/login',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(payload),
+            success: function (result) {
+                console.log(result)
+                // 성공
+                sessionStorage.setItem("accessToken", result.accessToken)
+                sessionStorage.setItem("email", result.email)
+                sessionStorage.setItem("nickname", result.nickname)
+                sessionStorage.setItem("imageUrl", result.imageUrl)
+            },complete: function() {
+                // 성공 후 로직
+                location.href="/";
+            }
+        }).fail(function (error) {
+            alert('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+        });
+    }
+</script>
+</html>
