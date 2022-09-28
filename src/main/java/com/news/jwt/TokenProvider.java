@@ -1,12 +1,9 @@
 package com.news.jwt;
 
-import com.news.dto.ResponseDto;
 import com.news.dto.TokenDto;
+import com.news.entity.RefreshToken;
 import com.news.entity.Role;
 import com.news.entity.User;
-import com.news.entity.RefreshToken;
-import com.news.error.ErrorCode;
-import com.news.error.exception.BadRequestException;
 import com.news.repository.RefreshTokenRepository;
 import com.news.security.UserDetailsImpl;
 import io.jsonwebtoken.*;
@@ -15,21 +12,14 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -88,7 +78,6 @@ public class TokenProvider {
                 .build();
     }
 
-
     public User getUserFromAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //인증이 되지 않았으면 null 리턴
@@ -127,16 +116,5 @@ public class TokenProvider {
     public RefreshToken isPresentRefreshToken(User user) {
         Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByUser(user);
         return optionalRefreshToken.orElse(null);
-    }
-
-    @Transactional
-    public ResponseDto<?> deleteRefreshToken(User user) {
-        RefreshToken refreshToken = isPresentRefreshToken(user);
-        if (null == refreshToken) {
-            return ResponseDto.fail(ErrorCode.INVALID_TOKEN);
-        }
-
-        refreshTokenRepository.delete(refreshToken);
-        return ResponseDto.success("success");
     }
 }

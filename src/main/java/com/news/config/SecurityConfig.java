@@ -6,7 +6,6 @@ import com.news.jwt.TokenProvider;
 import com.news.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @ConditionalOnDefaultWebSecurity
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfig{
     @Value("${jwt.secret}")
     String SECRET_KEY;
@@ -30,7 +28,7 @@ public class SecurityConfig{
     private final UserDetailsServiceImpl userDetailsService;
 
 
-    @Bean //비밀번호 해시 함수를 이용하여 암호화 처리
+    @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
     }
@@ -38,11 +36,9 @@ public class SecurityConfig{
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // CSRF 설정 Disable
         http.csrf().disable();
         
         http
-                // exception handling 할 때 우리가 만든 클래스를 추가
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -53,17 +49,10 @@ public class SecurityConfig{
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                // h2-console 을 위한 설정을 추가
-                .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
-
-                // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .anyRequest().permitAll()   // 나머지 API 는 전부 인증 필요
+                .anyRequest().permitAll()
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()

@@ -1,7 +1,7 @@
 function checkEmail() {
     $.ajax({
         type: 'POST',
-        url: '/api/user/emailcheck',
+        url: '/api/user/emailconfirm',
         contentType: 'application/json; charset=utf-8',
         data: $('#email').val(),
         success: function (result) {
@@ -19,7 +19,7 @@ function checkEmail() {
 function checkNickname() {
     $.ajax({
         type: 'POST',
-        url: '/api/user/nicknamecheck',
+        url: '/api/user/nicknameconfirm',
         contentType: 'application/json; charset=utf-8',
         data: $('#nickname').val(),
         success: function (result) {
