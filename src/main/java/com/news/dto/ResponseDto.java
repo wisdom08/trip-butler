@@ -1,22 +1,27 @@
 package com.news.dto;
 
-import com.news.error.ErrorCode;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public class ResponseDto<T> {
+
     private boolean success;
     private T data;
-    private ErrorCode errorCode;
+    private int code;
 
-    public static <T> ResponseDto<T> success(T data) {
-        return new ResponseDto<>(true, data, null);
+
+    public static <T> ResponseDto<T> success(int code, T data) {
+        return new ResponseDto<>(code, true, data);
     }
 
-    public static <T> ResponseDto<T> fail(ErrorCode errorCode) {
-        return new ResponseDto<>(false, null, errorCode);
-    }
 
+    @Builder
+    public ResponseDto(int code, boolean success, T data) {
+        this.code = code;
+        this.success = success;
+        this.data = data;
+    }
 }

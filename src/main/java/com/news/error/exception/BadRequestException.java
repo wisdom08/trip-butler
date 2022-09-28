@@ -1,12 +1,10 @@
 package com.news.error.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.news.error.ErrorCode;
 
-@ResponseStatus(value = HttpStatus.CONFLICT)
-public class BadRequestException extends RuntimeException {
+public class BadRequestException extends BusinessException{
 
-    public BadRequestException(String message) {
-        super(message);
+    public BadRequestException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

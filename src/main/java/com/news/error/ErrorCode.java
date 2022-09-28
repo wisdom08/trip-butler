@@ -3,16 +3,15 @@ package com.news.error;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ErrorCode { // 효율적으로 예외를 관리하기 위해 모든 예외를 하나의 Enum 클래스로 관리한다.
+public enum ErrorCode {
 
-    /*
-    400 BAD_REQUEST : 잘못된 요청
-    401 UNAUTHORIZED : 클라이언트가 인증되지 않았거나, 유효한 인증 정보가 부족하여 요청이 거부됨
-    403 FORBIDDEN : 클라이언트가 해당 요청에 대한 권한이 없는 경우(로그인 했지만 접근 권한 없는 무언가 요청할 때)
-    404 NOT_FOUND : Resource 를 찾을 수 없음
-    405 METHOD_NOT_ALLOWED : 요청 줄에 지정된 메서드가 요청 URI 로 식별되는 리소스에 허용되지 않는 상황
-    500 INTERNAL_SERVER_ERROR : 예외적인 또는 예측하지 못한 서버 에러. 서버 에러 총칭
-     */
+
+    // Common
+    INVALID_INPUT_VALUE(400, " Invalid Input Value"),
+    METHOD_NOT_ALLOWED(405,  " Invalid Input Value"),
+    ENTITY_NOT_FOUND(400,  " Entity Not Found"),
+    INTERNAL_SERVER_ERROR(500, "Server Error"),
+    INVALID_TYPE_VALUE(400, " Invalid Type Value"),
 
     // 유저
     HANDLE_ACCESS_DENIED(401, "로그인이 필요합니다."),
