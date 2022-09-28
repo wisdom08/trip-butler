@@ -2,6 +2,7 @@ package com.news.dto.user;
 
 import com.news.entity.Role;
 import com.news.entity.User;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRequestDto {
     @NotBlank(message = "이메일을 입력해주세요")
     @Size(min = 4, max = 32)

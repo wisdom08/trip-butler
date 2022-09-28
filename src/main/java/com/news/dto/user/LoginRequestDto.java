@@ -1,5 +1,6 @@
 package com.news.dto.user;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LoginRequestDto {
 
     private String email;

@@ -2,13 +2,14 @@ package com.news.dto.user;
 
 
 import com.news.entity.User;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserResponseDto {
 
     private Long id;

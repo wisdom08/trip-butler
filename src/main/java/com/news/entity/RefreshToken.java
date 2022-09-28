@@ -1,16 +1,11 @@
 package com.news.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class RefreshToken extends Timestamped {
 
@@ -25,7 +20,10 @@ public class RefreshToken extends Timestamped {
     @Column(nullable = false)
     private String refreshTokenValue;
 
-    public void updateValue(String token) {
-        this.refreshTokenValue = token;
+    @Builder
+    public RefreshToken(Long id, User user, String refreshTokenValue) {
+        this.id = id;
+        this.user = user;
+        this.refreshTokenValue = refreshTokenValue;
     }
 }
