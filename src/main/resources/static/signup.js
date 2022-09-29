@@ -5,10 +5,8 @@ function checkEmail() {
         contentType: 'application/json; charset=utf-8',
         data: $('#email').val(),
         success: function (result) {
-            console.log(result)
             $('#emailAvailable').show().text(result).append($('<br />'));
             $('#emailNotAvailable').hide();
-            console.log(result)
         }, error: function (request, status, error) {
             $('#emailAvailable').hide();
             $('#emailNotAvailable').show().text('이미 사용중인 이메일 입니다.').append($('<br />'));
@@ -23,13 +21,9 @@ function checkNickname() {
         contentType: 'application/json; charset=utf-8',
         data: $('#nickname').val(),
         success: function (result) {
-            console.log(result)
-            // 성공 시 실패 메시지 hide, 성공 메시지 show
             $('#nicknameAvailable').show().text(result).append($('<br />'));
             $('#nicknameNotAvailable').hide();
-            console.log(result)
         }, error: function (request, status, error) {
-            // 실패 시 실패 메시지 show, 성공 메시지 hide
             $('#nicknameAvailable').hide();
             $('#nicknameNotAvailable').show().text('이미 사용중인 닉네임 입니다.').append($('<br />'));
         }
