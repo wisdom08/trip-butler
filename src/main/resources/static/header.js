@@ -16,7 +16,7 @@ function click_logout() {
 
     $.ajax({
         type: "POST",
-        url: "/api/user/logout",
+        url: "/api/users/logout",
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(email),
