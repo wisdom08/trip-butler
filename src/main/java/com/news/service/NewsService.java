@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -43,9 +44,20 @@ public class NewsService {
 
             final SearchHit[] searchHits = response.getHits().getHits();
             final List<News> newsList = new ArrayList<>(searchHits.length);
+            HashMap<String, Object> hashMap = new HashMap<>();
             for (SearchHit hit : searchHits) {
+                hashMap.put("id", hit.getId());
+                hashMap.put("date", hit.getSourceAsMap().get("date"));
+                hashMap.put("section", hit.getSourceAsMap().get("section"));
+                hashMap.put("press", hit.getSourceAsMap().get("press"));
+                hashMap.put("author", hit.getSourceAsMap().get("author"));
+                hashMap.put("title", hit.getSourceAsMap().get("title"));
+                hashMap.put("url", hit.getSourceAsMap().get("url"));
+                hashMap.put("imageUrl", hit.getSourceAsMap().get("imageUrl"));
+                hashMap.put("contents", hit.getSourceAsMap().get("contents"));
+
                 newsList.add(
-                        MAPPER.readValue(hit.getSourceAsString(), News.class)
+                        MAPPER.readValue(new ObjectMapper().writeValueAsString(hashMap), News.class)
                 );
             }
 

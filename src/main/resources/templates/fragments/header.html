@@ -6,7 +6,17 @@
                 <input type="text" id="search-input">
                 <img class="btm_image" src="/images/icon-search.png" alt="icon-search">
             </div>
-            <img class="header-img" src="/images/profile-pic.png" alt="profile-pic">
+            <nav id="none-user-button">
+                <button id="signup-button" type="button" th:href="@{/signup}" onClick="location.href='signup'" class="btn btn-outline-success">회원가입</button>
+                <button id="login-button" type="button" th:href="@{/login}" onClick="location.href='login'" class="btn btn-outline-success">로그인</button>
+            </nav>
+            <nav id="user-button">
+                <span id="user-nickname"></span>님 안녕하세요.
+                <button id="chat-button" type="button" th:href="@{/chat}" onClick="location.href='chat'" class="btn btn-outline-success">채팅방</button>
+                <button id="logout-button" type="button" th:href="@{/result}" onclick="click_logout()" class="btn btn-outline-success">로그아웃</button>
+            </nav>
         </ul>
     </nav>
 </header>
+<script src="header.js"></script>
+

@@ -1,0 +1,36 @@
+<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head.html"></div>
+    <link rel="stylesheet" type="text/css" href="/css/signup.css">
+    <title>회원가입 페이지</title>
+</head>
+<body>
+<div id="login-form">
+    <div id="login-title">회원가입</div>
+
+    <form method="post">
+        <div class="login-id-label">E-mail</div>
+        <input type="text" id="email" placeholder="example@example.com" class="login-input-box" oninput = "checkEmail()">
+        <div>
+            <d id="emailAvailable" class="valid-feedback" style="display:none;"></d>
+            <d id="emailNotAvailable" class="invalid-feedback" style="display:none;"></d>
+        </div>
+
+        <div class="login-id-label">Nickname</div>
+        <input type="text" id="nickname" placeholder="4~12자를 입력해주세요." class="login-input-box" oninput = "checkNickname()">
+        <div>
+            <d id="nicknameAvailable" class="valid-feedback" style="display:none;"></d>
+            <d id="nicknameNotAvailable" class="invalid-feedback" style="display:none;"></d>
+        </div>
+
+        <div class="login-id-label">Password</div>
+        <input type="password" id="password" placeholder="숫자와 영어로 4~12자를 입력해주세요." class="login-input-box">
+
+    </form>
+    <button id="login-id-submit" onclick="click_signup()">회원 가입</button>
+</div>
+</body>
+<script src="signup.js"></script>
+</html>
