@@ -27,4 +27,4 @@ logging:
     org.hibernate.type: trace
 
 jwt:
-  secret: 4oCYc3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWhhbmdoYWUtYXNzaWdubWVudC1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3Qtc2VjcmV0LWtleeKAmQo
+  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLXNhbmd3b28tc3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFs
