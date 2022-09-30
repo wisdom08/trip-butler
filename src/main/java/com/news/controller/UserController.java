@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -32,22 +32,18 @@ public class UserController {
     }
 
     @PostMapping("/emailconfirm")
-    public ResponseEntity<?> checkEmailDuplication(@RequestBody String email) throws BadRequestException {
+    public void checkEmailDuplication(@RequestBody String email) throws BadRequestException {
 
         if (userService.existsByEmail(email)) {
             throw new BadRequestException(ErrorCode.EMAIL_DUPLICATION);
-        } else {
-            return ResponseEntity.ok("사용 가능한 이메일 입니다.");
         }
     }
 
     @PostMapping("/nicknameconfirm")
-    public ResponseEntity<?> checkNicknameDuplication(@RequestBody String nickname) throws BadRequestException {
+    public void checkNicknameDuplication(@RequestBody String nickname) throws BadRequestException {
 
         if (userService.existsByNickname(nickname)) {
             throw new BadRequestException(ErrorCode.NICKNAME_DUPLICATION);
-        } else {
-            return ResponseEntity.ok("사용 가능한 닉네임 입니다.");
         }
     }
 
