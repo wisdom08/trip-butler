@@ -4,7 +4,7 @@ function click_login() {
     // 로그인 통신
     $.ajax({
         type: 'POST',
-        url: '/api/user/login',
+        url: '/api/users/login',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(payload),
