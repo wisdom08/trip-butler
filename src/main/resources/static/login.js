@@ -12,9 +12,9 @@ function click_login() {
             console.log(result)
             // 성공
             sessionStorage.setItem("accessToken", result.accessToken)
+            sessionStorage.setItem("accessTokenExpiresIn", result.accessTokenExpiresIn)
             sessionStorage.setItem("email", result.email)
             sessionStorage.setItem("nickname", result.nickname)
-            sessionStorage.setItem("imageUrl", result.imageUrl)
         }, complete: function () {
             // 성공 후 로직
             location.href = "/";

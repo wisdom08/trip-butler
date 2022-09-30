@@ -29,7 +29,6 @@ import javax.persistence.*;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-    private String imageUrl;
 
     public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
         return passwordEncoder.matches(password, this.password);

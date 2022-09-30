@@ -8,16 +8,16 @@ public class LoginResponseDto {
     private String grantType;
     private String accessToken;
 
+    private Long accessTokenExpiresIn;
     private String email;
     private String nickname;
-    private String imageUrl;
 
     @Builder
-    public LoginResponseDto(String grantType, String accessToken, String email, String nickname, String imageUrl) {
+    public LoginResponseDto(String grantType, String accessToken, Long accessTokenExpiresIn, String email, String nickname) {
         this.grantType = grantType;
         this.accessToken = accessToken;
+        this.accessTokenExpiresIn = accessTokenExpiresIn;
         this.email = email;
         this.nickname = nickname;
-        this.imageUrl = imageUrl;
     }
 }
