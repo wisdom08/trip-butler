@@ -65,7 +65,7 @@ function addHTML(newsDto) {
                                 <div class="card-body">
                                 <button id="modal_btn" type="button" class="btn btn-success openBtn" onclick='openModal(${JSON.stringify(newsDto)})' data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">의견 공유</button>
                                 <h5 class="card-title">${newsDto.title}</h5>
-                                    <p class="card-text">${newsDto.contents}</p>
+                                    <p class="card-text"><div class="article"><div class="contentStr">${newsDto.contents}</div></div></p>
                                     <p class="card-text"><small class="text-muted">${newsDto.date}</small></p>
                                     <p class="card-text"><small class="text-muted">${newsDto.section}</small></p>
                                     <p class="card-text"><small class="text-muted">${newsDto.press}</small></p>
@@ -102,7 +102,41 @@ function addHTML(newsDto) {
   </div>
 </div>
                             </div>`
-    $('#news_list').append(tempHtml);
+  $('#news_list').append(tempHtml);
+
+  $(document).ready(function(){
+    $('.article').each(function(){
+      const content = $(this).children('.contentStr');
+
+      const content_txt = content.text();
+      const content_html = content.html();
+      const content_txt_short = content_txt.substring(0,150)+"...";
+      const btn_more = $('<button type="button" class="btn btn-outline-secondary btn-sm"><a href="javascript:void(0)" class="more">더보기</a></button>');
+
+      $(this).append(btn_more);
+
+      if(content_txt.length >= 200){
+        content.html(content_txt_short)
+
+      }else{
+        btn_more.hide()
+      }
+
+      btn_more.click(toggle_content);
+      function toggle_content(){
+        if($(this).hasClass('short')){
+          $(this).html('더보기');
+          content.html(content_txt_short)
+          $(this).removeClass('short');
+        }else{
+          $(this).html('접기');
+          content.html(content_html);
+          $(this).addClass('short');
+
+        }
+      }
+    });
+  });
 }
 
 function openModal(newsDto) {
