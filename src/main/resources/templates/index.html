@@ -1,53 +1,18 @@
 <!doctype html>
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta property="og:title" content="당신의 신문, 당신">
-    <meta property="og:description" content="오늘 하루, 세상에는 무슨 일이 있었을까요?">
-    <meta property="og:image" content="images/og_your-news.png">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
-    <link rel="stylesheet" href="/css/index.css">
-
-
-    <script src="../static/basic.js"></script>
-    <title>당신의 신문, 당신</title>
+    <div th:replace="fragments/head.html"></div>
 </head>
-
 <body>
-<header>
-    <nav id="header">
-        <ul class="header-nav">
-            <img class="header-img" src="/images/profile-pic.png" alt="profile-pic">
-        </ul>
-    </nav>
-</header>
 
-<section>
-    <img class="banner-img" src="/images/og_your-news.png" alt="banner-img">
-    <div class="my-input-container">
-        <input type="text">
-        <img src="/images/icon-search.png" alt="icon-search">
-    </div>
-</section>
+<div th:replace="fragments/header.html"></div>
 
-<footer>
-    <nav id="footer-nav">
-        <ul id="footer-left">
-            <a href="#">당신의 신문, 당신</a>
-            <a href="https://github.com/wisdom08/your-news">프로젝트 github</a>
-        </ul>
-        <ul id="footer-right">
-            <a href="#">6주 스프링 프로젝트</a>
-        </ul>
-    </nav>
-</footer>
+<div id="page-wrapper">
+    <div th:replace="fragments/sidebar.html"></div>
+    <div class="card-body" id="news_list"></div>
+</div>
+
+<div th:replace="fragments/footer.html"></div>
+
 </body>
 </html>

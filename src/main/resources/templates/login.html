@@ -1,0 +1,30 @@
+<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head.html"></div>
+    <link rel="stylesheet" type="text/css" href="/css/signup.css">
+    <title>로그인 페이지</title>
+</head>
+<body>
+<div id="login-form">
+    <div id="login-title">로그인</div>
+    <div>
+        <button id="login-id-btn" onclick="location.href='/signup'">
+            회원 가입하기
+        </button>
+    </div>
+    <form method="post">
+        <div class="login-id-label">Email</div>
+        <input id="email" type="text" name="username" class="login-input-box">
+        ​
+        <div class="login-id-label">Password</div>
+        <input id="password" type="password" name="password" class="login-input-box">
+    </form>
+    ​
+    <button id="login-id-submit" onclick="click_login()">로그인</button>
+    <div id="login-failed" style="display:none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
+</div>
+</body>
+<script src="login.js"></script>
+</html>

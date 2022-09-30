@@ -5,8 +5,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ViewPageController {
-    @GetMapping("/result")
-    public String getPage() {
-        return "result";
+    @GetMapping("/")
+    public String getHome() {
+        return "index";
+    }
+
+    @GetMapping("/signup")
+    public String getSignup() {
+        return "signup";
+    }
+
+    @GetMapping("/login")
+    public String getLogin() {
+        return "login";
     }
 }
