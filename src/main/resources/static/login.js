@@ -10,9 +10,9 @@ function click_login() {
         data: JSON.stringify(payload),
         success: function (result) {
             sessionStorage.setItem("accessToken", result.accessToken)
+            sessionStorage.setItem("accessTokenExpiresIn", result.accessTokenExpiresIn)
             sessionStorage.setItem("email", result.email)
             sessionStorage.setItem("nickname", result.nickname)
-            sessionStorage.setItem("imageUrl", result.imageUrl)
         }, complete: function () {
             location.href = "/";
         }

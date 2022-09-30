@@ -8,14 +8,12 @@ import com.news.entity.User;
 import com.news.error.ErrorCode;
 import com.news.error.exception.InvalidValueException;
 import com.news.jwt.TokenProvider;
-import com.news.repository.RefreshTokenRepository;
 import com.news.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
@@ -25,7 +23,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     public void signup(UserRequestDto userRequestDto) {
@@ -60,26 +57,10 @@ public class UserService {
         return LoginResponseDto.builder()
                         .grantType(tokenDto.getGrantType())
                         .accessToken(tokenDto.getAccessToken())
+                        .accessTokenExpiresIn(tokenDto.getAccessTokenExpiresIn())
                         .email(user.getEmail())
                         .nickname(user.getNickname())
-                        .imageUrl(null)
                         .build();
-    }
-
-    @Transactional
-    public void logout(String email) {
-        Long userId = userRepository.findIdByEmail(email);
-        refreshTokenRepository.deleteByUserId(userId);
-    }
-
-    @Transactional
-    public TokenDto refresh(HttpServletRequest request) {
-        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
-            throw new InvalidValueException(ErrorCode.INVALID_TOKEN);
-        }
-        User userFromRefreshTokenRepo = tokenProvider.getUserFromRefreshTokenRepo(request.getHeader("Refresh-Token"));
-
-        return tokenProvider.generateTokenDto(userFromRefreshTokenRepo);
     }
 
     @Transactional(readOnly = true)

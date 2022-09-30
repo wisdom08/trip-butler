@@ -11,23 +11,9 @@ document.getElementById("user-nickname").innerText = sessionStorage.getItem("nic
 
 // 로그아웃 버튼
 function click_logout() {
-
-    let email = sessionStorage.getItem("email")
-
-    $.ajax({
-        type: "POST",
-        url: "/api/users/logout",
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(email),
-        success: function (response) {
-
-        }
-    });
-
+    sessionStorage.removeItem("accessTokenExpiresIn")
     sessionStorage.removeItem("accessToken")
     sessionStorage.removeItem("email")
     sessionStorage.removeItem("nickname")
-    sessionStorage.removeItem("imageUrl")
     location.reload()
 }

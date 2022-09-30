@@ -31,16 +31,6 @@ public class UserController {
         return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.valueOf(HttpStatus.OK.value()));
     }
 
-    @PostMapping("/logout")
-    public ResponseDto<?> logout(String email) {
-        userService.logout(email);
-        return ResponseDto.success(200, null);
-    }
-    @PostMapping("/refresh")
-    public ResponseEntity<?> reload(HttpServletRequest request) {
-        return new ResponseEntity<>(userService.refresh(request), HttpStatus.valueOf(HttpStatus.OK.value()));
-    }
-
     @PostMapping("/emailconfirm")
     public void checkEmailDuplication(@RequestBody String email) throws BadRequestException {
 
