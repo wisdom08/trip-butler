@@ -10,6 +10,8 @@ import com.news.error.exception.InvalidValueException;
 import com.news.jwt.TokenProvider;
 import com.news.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,12 +44,10 @@ public class UserService {
 
         User user = isPresentUser(loginRequestDto.getEmail());
 
-        // 유저 없을시 익셉션 처리
         if (null == user) {
-           throw new InvalidValueException(ErrorCode.LOGIN_INPUT_INVALID);
+            throw new InvalidValueException(ErrorCode.LOGIN_INPUT_INVALID);
         }
 
-        // 비밀번호 체크, 실패시 익셉션 처리
         if (!user.validatePassword(passwordEncoder, loginRequestDto.getPassword())) {
             throw new InvalidValueException(ErrorCode.NOTEQUAL_INPUT_PASSWORD);
         }
@@ -55,18 +55,30 @@ public class UserService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(user);
 
         return LoginResponseDto.builder()
-                        .grantType(tokenDto.getGrantType())
-                        .accessToken(tokenDto.getAccessToken())
-                        .accessTokenExpiresIn(tokenDto.getAccessTokenExpiresIn())
-                        .email(user.getEmail())
-                        .nickname(user.getNickname())
-                        .build();
+                .grantType(tokenDto.getGrantType())
+                .accessToken(tokenDto.getAccessToken())
+                .accessTokenExpiresIn(tokenDto.getAccessTokenExpiresIn())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .build();
     }
 
     @Transactional(readOnly = true)
     public User isPresentUser(String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         return optionalUser.orElse(null);
+    }
+
+    @Transactional
+    public User getMyInfo() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication == null || authentication.getName() == null) {
+            throw new InvalidValueException(ErrorCode.LOGIN_INPUT_INVALID);
+        }
+
+        return userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new InvalidValueException(ErrorCode.NOT_FOUND_USER));
     }
 
     @Transactional

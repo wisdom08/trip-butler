@@ -3,9 +3,7 @@ package com.news.config;
 import com.news.jwt.JwtAccessDeniedHandler;
 import com.news.jwt.JwtAuthenticationEntryPoint;
 import com.news.jwt.TokenProvider;
-import com.news.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +18,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 @ConditionalOnDefaultWebSecurity
 public class SecurityConfig{
-    @Value("${jwt.secret}")
-    String SECRET_KEY;
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private final UserDetailsServiceImpl userDetailsService;
 
 
     @Bean
@@ -37,7 +32,7 @@ public class SecurityConfig{
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        
+
         http
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -56,7 +51,7 @@ public class SecurityConfig{
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()
-                .apply(new JwtSecurityConfig(SECRET_KEY, tokenProvider, userDetailsService));
+                .apply(new JwtSecurityConfig(tokenProvider));
         return http.build();
     }
 
