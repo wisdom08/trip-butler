@@ -1,54 +1,74 @@
-<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <ul class="list-group">
-            <li class="list-group-item">
-                정치
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-            <li class="list-group-item">
-                경제
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-            <li class="list-group-item">
-                사회
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-            <li class="list-group-item">
-                문화
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-            <li class="list-group-item">
-                국제
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-            <li class="list-group-item">
-                지역
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-            <li class="list-group-item">
-                스포츠
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-            <li class="list-group-item">
-                IT_과학
-                <span class="checkbox-span">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                    </span>
-            </li>
-        </ul>
+<nav class="sidebar">
+    <div class="text"> 상세검색</div>
+    <ul class="scroll">
+        <li>
+            <a href="#" class="period-btn">기간
+                <span class="fas fa-caret-down first"></span>
+            </a>
+            <ul class="period-show" id="">
+                <li>
+                    <label>시작일: <input type="date" id="start" name="articles-from"></label>
+                </li>
+                <li>
+                    <label>종료일: <input type="date" id="end" name="articles-to"></label>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="section-btn">분야
+                <span class="fas fa-caret-down second"></span>
+            </a>
+            <ul class="section-show" id="">
+                <li>
+                    <label><input type="checkbox" name="section" value="정치" checked> 정치</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="section" value="경제" checked> 경제</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="section" value="사회" checked> 사회</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="section" value="문화" checked> 문화</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="section" value="국제" checked> 국제</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="section" value="it과학" checked> IT과학</label>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="press-btn">신문사
+                <span class="fas fa-caret-down third"></span>
+            </a>
+            <ul class="press-show">
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="중앙일보" checked> 중앙일보</label>
+                </li>
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="한국일보" checked> 한국일보</label>
+                </li>
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="동아일보" checked> 동아일보</label>
+                </li>
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="조선일보" checked> 조선일보</label>
+                </li>
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="한겨레" checked> 한겨레</label>
+                </li>
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="매일경제" checked> 매일경제</label>
+                </li>
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="뉴시스" checked> 뉴시스</label>
+                </li>
+                <li>
+                    <label><input class="press" type="checkbox" name="press" value="디지털타임스" checked> 디지털타임스</label>
+                </li>
+            </ul>
+        </li>
     </ul>
-</div>
+</nav>
