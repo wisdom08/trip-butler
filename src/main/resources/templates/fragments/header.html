@@ -1,4 +1,3 @@
-<script src="header.js"></script>
 <link rel="stylesheet" href="/css/post.css">
 
 <header>
@@ -17,7 +16,6 @@
             </nav>
             <nav id="user-button">
                 <span id="user-nickname"></span>님 안녕하세요.
-                <button id="chat-button" type="button" th:href="@{/chat}" onClick="location.href='chat'" class="btn btn-outline-success">채팅방</button>
                 <button id="logout-button" type="button" th:href="@{/result}" onclick="click_logout()" class="btn btn-outline-success">로그아웃</button>
             </nav>
           <button id="modal_btn" type="button" class="btn btn-success" onclick='open_modal_for_idea()'
@@ -59,7 +57,7 @@
     </div>
   </div>
 </div>
-
+<script src="header.js"></script>
 <script>
   function open_modal_for_idea() {
     $('#modal_for_idea').on('show.bs.modal', function () {})
