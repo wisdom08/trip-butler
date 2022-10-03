@@ -16,8 +16,13 @@ public class PostController {
     }
 
     @PostMapping
-    public String createPost(@RequestParam String newsId, @RequestParam String contents) {
-        postService.createPost(newsId, contents);
-        return "redirect:/result";
+    public String createPost(
+        @RequestParam String newsId,
+        @RequestParam String contents,
+        @RequestParam String nickname,
+        @RequestParam String url,
+        @RequestParam String title) {
+        postService.createPost(newsId, contents, nickname, url, title);
+        return "redirect:/";
     }
 }

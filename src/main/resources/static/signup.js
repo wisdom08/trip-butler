@@ -23,7 +23,6 @@ function checkNickname() {
         success: function (result) {
             $('#nicknameAvailable').show().text(result).append($('<br />'));
             $('#nicknameNotAvailable').hide();
-            console.log(result)
         }, error: function (request, status, error) {
             $('#nicknameAvailable').hide();
             $('#nicknameNotAvailable').show().text('이미 사용중인 닉네임 입니다.').append($('<br />'));

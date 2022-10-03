@@ -1,3 +1,6 @@
+<script src="header.js"></script>
+<link rel="stylesheet" href="/css/post.css">
+
 <header>
     <nav id="header">
         <ul class="header-nav">
@@ -15,8 +18,48 @@
                 <button id="chat-button" type="button" th:href="@{/chat}" onClick="location.href='chat'" class="btn btn-outline-success">채팅방</button>
                 <button id="logout-button" type="button" th:href="@{/result}" onclick="click_logout()" class="btn btn-outline-success">로그아웃</button>
             </nav>
+          <button id="modal_btn" type="button" class="btn btn-success" onclick='open_modal_for_idea()'
+                  data-toggle="modal" data-target="#modal_for_idea" data-whatever="@getbootstrap">다른 사람들의 의견이 궁금해요!
+          </button>
         </ul>
     </nav>
 </header>
-<script src="header.js"></script>
 
+<div class="modal fade" id="modal_for_idea" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+
+      <div class="table-responsive clearfix">
+        <table class="table table-dark table-hover">
+          <thead>
+          <tr>
+            <td>no</td>
+            <td>기사</td>
+            <td>작성자</td>
+            <td>의견</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="post : ${posts}">
+            <td th:text="${post.id}"/>
+            <td><a target='_blank' th:href="${post.url}" th:text="${post.title}" class="title"/></td>
+            <td th:text="${post.writer}"/>
+            <td th:text="${post.contents}"/>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function open_modal_for_idea() {
+    $('#modal_for_idea').on('show.bs.modal', function () {})
+  }
+</script>
