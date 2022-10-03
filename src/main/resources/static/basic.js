@@ -1,4 +1,5 @@
 const nickname = sessionStorage.getItem("nickname");
+
 $(document).ready(function () {
     setDefaultDate();
 
