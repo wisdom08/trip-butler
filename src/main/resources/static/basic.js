@@ -1,3 +1,5 @@
+const nickname = sessionStorage.getItem("nickname");
+
 const valueArrays = [];
 
 const checkCheckboxes = () => {
@@ -81,13 +83,15 @@ function addHTML(newsDto) {
       <div class="modal-body">
         <form action="/api/posts" method="post">
          <div class="form-group">
-            <label for="username" class="col-form-label">기사 제목:</label>
+            <label for="title" class="col-form-label">기사 제목:</label>
+            <input type="text" class="form-control news-title" id="title" name="title"/>
             <input type="hidden" class="form-control news-id" id="newsId" name="newsId"/>
-            <input type="text" class="form-control news-title" id="title" name="title" disabled/>
+            <input type="hidden" class="form-control news-url" id="url" name="url" value="url"/>
          </div>
           
          <div class="form-group">
            <label for="contents" class="control-label">의견:</label>
+           <input type="hidden" value="${nickname}" id="nickname" name="nickname">
            <textarea class="form-control" id="contents" data-value="" name="contents"></textarea>
          </div>
              
@@ -110,5 +114,7 @@ function openModal(newsDto) {
     const modal = $(this)
     modal.find('#newsId').val(newsDto.id);
     modal.find('#title').val(newsDto.title);
+    modal.find('#url').val(newsDto.url);
+    modal.find('#contents').val('');
   })
 }
