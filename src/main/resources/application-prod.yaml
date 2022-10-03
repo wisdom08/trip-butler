@@ -30,7 +30,7 @@ jwt:
   secret: ${jwt.secret}
 
 elasticsearch:
-  host: ${elasticsearch.host}
-  port: ${elasticsearch.port}
-  username: ${elasticsearch.username}
-  password: ${elasticsearch.password}
+  host: ${es.host}
+  port: ${es.port}
+  username: ${es.username}
+  password: ${es.password}
