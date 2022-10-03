@@ -21,7 +21,8 @@ public enum ErrorCode {
     EMAIL_DUPLICATION(400, "이미 등록된 이메일입니다."),
     NICKNAME_DUPLICATION(400, "이미 등록된 닉네임입니다."),
     LOGIN_INPUT_INVALID(400, "로그인 정보를 다시 확인해 주세요."),
-    LOGIN_STATE_INVALID(400, "로그인 상태를 다시 확인해 주세요.");
+    LOGIN_STATE_INVALID(400, "로그인 상태를 다시 확인해 주세요."),
+    NOT_FOUND_USER(404, "해당 유저가 존재하지 않습니다.");
 
 
     private final int status; // 상태 코드를 상수로 선언해둔 HttpStatus 타입의 멤버, 예외에 대한 상태 코드(status)와 이름(error)을 처리하는 데 사용된다.
