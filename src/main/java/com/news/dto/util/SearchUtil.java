@@ -1,9 +1,11 @@
 package com.news.dto.util;
 
 import com.news.dto.SearchRequestDto;
+import com.news.helper.Indices;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
@@ -22,8 +24,10 @@ public class SearchUtil {
                     .filter(QueryBuilders.rangeQuery("date").gte(dto.getStartDate()).lte(dto.getEndDate()))
                     .must(searchQuery);
 
-
             SearchSourceBuilder builder = new SearchSourceBuilder()
+                    .from(0)
+                    .size(100)
+                    .trackTotalHits(true)
                     .postFilter(boolQueryBuilder);
 
 

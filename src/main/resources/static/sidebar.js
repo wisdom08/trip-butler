@@ -13,6 +13,6 @@ $(document).on("click", ".press-btn", function () {
     $('nav ul .third').toggleClass("rotate");
 });
 
-$(document).on("click", "nav ul li", function () {
+$(document).on("click", ".sidebar ul li", function () {
     $(this).addClass("active").siblings().removeClass("active");
 });
