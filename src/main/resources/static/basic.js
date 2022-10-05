@@ -19,7 +19,7 @@ $(document).ready(function () {
 });
 
 
-function setDefaultDate(){
+function setDefaultDate() {
     const date = new Date();
 
     let startDay = date.getDate();
@@ -46,7 +46,7 @@ function setDefaultDate(){
 function searchWithSection() {
     const secArr = document.getElementsByName("section")
     const selectedSection = [];
-    for(let i=0; i<secArr.length; i++){
+    for (let i = 0; i < secArr.length; i++) {
         if (secArr[i].checked) {
             selectedSection.push(secArr[i].value)
         }
@@ -57,14 +57,13 @@ function searchWithSection() {
 function searchWithPress() {
     const pressArr = document.getElementsByName("press")
     const selectedPress = [];
-    for(let i=0; i<pressArr.length; i++){
+    for (let i = 0; i < pressArr.length; i++) {
         if (pressArr[i].checked) {
             selectedPress.push(pressArr[i].value)
         }
     }
     return selectedPress;
 }
-
 
 function getNewsList() {
     let keyword = $('#search-input').val();
@@ -82,7 +81,14 @@ function getNewsList() {
         alert('시작일을 종료일보다 빠른 날짜로 설정해주세요.');
     }
 
-    const payload = JSON.stringify({searchTerm: keyword, section:sectionArr, press:pressArr, startDate:startDate, endDate:endDate})
+    const payload = JSON.stringify({
+        searchTerm: keyword,
+        section: sectionArr,
+        press: pressArr,
+        startDate: startDate,
+        endDate: endDate,
+    })
+
     $.ajax({
         type: 'POST',
         url: `/api/news/search`,
@@ -91,12 +97,96 @@ function getNewsList() {
         data: payload,
         success: function (response) {
             $('#news_list').empty();
+            $(".pagination").empty();
+
+            //검색 결과 보여주기
             for (let i = 0; i < response.length; i++) {
                 let newsDto = response[i];
                 addHTML(newsDto);
             }
+
+            //전체결과 수
+            let numberOfArticles = response.length;
+            console.log(numberOfArticles);
+            //한 페이지당 결과 수
+            let sizePerPage = 10;
+            //페이지당 결과만 보이기
+            $("#news_list .card").slice(sizePerPage).hide();
+            //전체 페이지 수
+            let totalPages = Math.ceil(numberOfArticles / sizePerPage);
+
+            // 페이지바 그려주기
+            $(".pagination").append(`<li><a id="previous-page" href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>`);
+            $(".pagination").append(`<li class='current-page active'><a href='javascript:void(0)'>1</a></li>`);
+
+            for (let i = 2; i <= 10; i++) {
+                $(".pagination").append(`<li class='current-page'><a href='javascript:void(0)'>${i}</a></li>`);
+            }
+
+            $(".pagination").append(`<li class='next-page'><a href='javascript:void(0)' aria-label=Next><span aria-hidden=true>&raquo;</span></a></li>`);
+
+
+            //페이지 버튼 클릭 시
+            $(".current-page").on("click", function () {
+                // 현재 페이지 버튼이 클릭이 되어있을 때
+                if ($(this).hasClass('active')) {
+                    return false;
+                } else {
+                    // 현재 페이지 버튼이 클릭이 되지 않았을 때
+                    let currentPage = $(this).index();
+                    $(this).addClass('active').siblings().removeClass("active");
+                    let totalSize = sizePerPage * currentPage;
+                    $("#news_list .card").hide();
+                    for (let i = totalSize - sizePerPage; i < totalSize; i++) {
+                        $("#news_list .card").eq(i).show();
+                    }
+                }
+            });
+
+            //다음 버튼 클릭 시
+            $(".next-page").on("click", function () {
+                let currentPage = $(".pagination li.active").index();
+                console.log(currentPage);
+                //현재 페이지가 마지막일 때
+                if (currentPage === totalPages || currentPage > totalPages) {
+                    return false;
+                } else {
+                    currentPage++;
+                    $(".pagination li").removeClass('active');
+                    $("#news_list .card").hide();
+
+                    let totalSize = sizePerPage * currentPage;
+                    console.log(totalSize) //ok
+                    for (let i = totalSize - sizePerPage; i < totalSize; i++) {
+                        $("#news_list .card").eq(i).show();
+                    }
+                    console.log("active 켜짐")
+                    $(".pagination li.current-page").eq(currentPage - 1).addClass('active');
+                console.log('active 꺼짐')
+                }
+            });
+
+            //이전 버튼 클릭 시
+            $("#previous-page").on("click", function () {
+                let currentPage = $(".pagination li.active").index();
+                console.log(currentPage);
+                if (currentPage === 1) {
+                    return false;
+                } else {
+                    currentPage--;
+                    $(".pagination li").removeClass("active");
+                    $("#news_list .card").hide();
+
+                    let totalSize = sizePerPage * currentPage;
+                    for (let i = totalSize - sizePerPage; i < totalSize; i++) {
+                        $("#news_list .card").eq(i).show();
+                    }
+                    $(".pagination li.current-page").eq(currentPage - 1).addClass('active');
+                    $(".pagination li#previous-page").removeClass('active');
+                }
+            });
         }
-    })
+    });
 }
 
 function addHTML(newsDto) {
