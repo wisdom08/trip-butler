@@ -1,31 +1,39 @@
 function checkEmail() {
+    const email = $('#email').val();
+    if (email === '') {
+        $('#emailNotAvailable').hide();
+        return;
+    }
     $.ajax({
         type: 'POST',
-        url: '/api/users/emailconfirm',
+        url: '/api/users/email',
         contentType: 'application/json; charset=utf-8',
-        data: $('#email').val(),
+        data: email,
         success: function (result) {
-            $('#emailAvailable').show().text(result).append($('<br />'));
-            $('#emailNotAvailable').hide();
-        }, error: function (request, status, error) {
-            $('#emailAvailable').hide();
-            $('#emailNotAvailable').show().text('이미 사용중인 이메일 입니다.').append($('<br />'));
+            if (result) {
+                $('#emailAvailable').hide();
+                $('#emailNotAvailable').show().text('이미 사용중인 이메일입니다.').append($('<br />'));
+            }
         }
     });
 }
 
 function checkNickname() {
+    const nickname = $('#nickname').val();
+    if (nickname === "") {
+        $('#nicknameNotAvailable').hide();
+        return;
+    }
     $.ajax({
         type: 'POST',
-        url: '/api/users/nicknameconfirm',
+        url: '/api/users/nickname',
         contentType: 'application/json; charset=utf-8',
-        data: $('#nickname').val(),
+        data: nickname,
         success: function (result) {
-            $('#nicknameAvailable').show().text(result).append($('<br />'));
-            $('#nicknameNotAvailable').hide();
-        }, error: function (request, status, error) {
-            $('#nicknameAvailable').hide();
-            $('#nicknameNotAvailable').show().text('이미 사용중인 닉네임 입니다.').append($('<br />'));
+            if (result) {
+                $('#nicknameAvailable').hide();
+                $('#nicknameNotAvailable').show().text('이미 사용중인 닉네임입니다.').append($('<br />'));
+            }
         }
     });
 }
@@ -66,7 +74,7 @@ function click_signup() {
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data),
-        success: function (response) {
+        success: function () {
             location.href = "/login";
         }
     });
