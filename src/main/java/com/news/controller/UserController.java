@@ -3,9 +3,9 @@ package com.news.controller;
 import com.news.dto.ResponseDto;
 import com.news.dto.user.LoginRequestDto;
 import com.news.dto.user.UserRequestDto;
-import com.news.error.ErrorCode;
 import com.news.error.exception.BadRequestException;
 import com.news.service.UserService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,20 +31,14 @@ public class UserController {
         return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.valueOf(HttpStatus.OK.value()));
     }
 
-    @PostMapping("/emailconfirm")
-    public void checkEmailDuplication(@RequestBody String email) throws BadRequestException {
-
-        if (userService.existsByEmail(email)) {
-            throw new BadRequestException(ErrorCode.EMAIL_DUPLICATION);
-        }
+    @PostMapping("/email")
+    public boolean checkEmailDuplication(@RequestBody String email) {
+        return userService.existsByEmail(email);
     }
 
-    @PostMapping("/nicknameconfirm")
-    public void checkNicknameDuplication(@RequestBody String nickname) throws BadRequestException {
-
-        if (userService.existsByNickname(nickname)) {
-            throw new BadRequestException(ErrorCode.NICKNAME_DUPLICATION);
-        }
+    @PostMapping("/nickname")
+    public boolean checkNicknameDuplication(@RequestBody String nickname) throws BadRequestException {
+        return userService.existsByNickname(nickname);
     }
 
 }
