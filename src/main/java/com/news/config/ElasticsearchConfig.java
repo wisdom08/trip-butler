@@ -29,13 +29,13 @@ import javax.net.ssl.SSLContext;
 //to enable elasticsearch repositories from the package
 @ComponentScan(basePackages = "com.news") //to let the spring know where the rest of the components are
 public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
-    @Value("${elastic.host}")
+    @Value("${elasticsearch.host}")
     public String elasticsearchUrl;
-    @Value("${elastic.port}")
+    @Value("${elasticsearch.port}")
     public int elasticsearchPort;
-    @Value("${elastic.username}")
+    @Value("${elasticsearch.username}")
     public String elasticsearchUsername;
-    @Value("${elastic.password}")
+    @Value("${elasticsearch.password}")
     public String elasticsearchPassword;
 
     @Bean
