@@ -22,16 +22,6 @@ $(document).ready(function () {
 function setDefaultDate() {
     const date = new Date();
 
-    let startDay = date.getDate();
-    let startMonth = date.getMonth() + 1;
-    let startYear = date.getFullYear() - 1;
-
-    if (startMonth < 10) startMonth = "0" + startMonth;
-    if (startDay < 10) startDay = "0" + startDay;
-
-    let yearAgo = startYear + "-" + startMonth + "-" + startDay;
-    $('#start').val(yearAgo);
-
     let endDay = date.getDate();
     let endMonth = date.getMonth() + 1;
     let endYear = date.getFullYear();
@@ -74,11 +64,21 @@ function getNewsList() {
     }
 
     const sectionArr = searchWithSection();
+    if (sectionArr.length == 0){
+        return alert("분야를 선택해주세요.")
+    }
+
     const pressArr = searchWithPress();
+    if (pressArr.length == 0){
+        return alert("신문사를 선택해주세요.")
+    }
     const startDate = $('#start').val();
     const endDate = $('#end').val();
+    if (endDate == "") {
+        return alert("검색 종료일을 설정해주세요.")
+    }
     if (startDate > endDate) {
-        alert('시작일을 종료일보다 빠른 날짜로 설정해주세요.');
+        return alert('시작일을 종료일보다 빠른 날짜로 설정해주세요.');
     }
 
     const payload = JSON.stringify({
@@ -107,7 +107,6 @@ function getNewsList() {
 
             //전체결과 수
             let numberOfArticles = response.length;
-            console.log(numberOfArticles);
             //한 페이지당 결과 수
             let sizePerPage = 10;
             //페이지당 결과만 보이기
@@ -156,13 +155,12 @@ function getNewsList() {
                     $("#news_list .card").hide();
 
                     let totalSize = sizePerPage * currentPage;
-                    console.log(totalSize) //ok
                     for (let i = totalSize - sizePerPage; i < totalSize; i++) {
                         $("#news_list .card").eq(i).show();
                     }
                     console.log("active 켜짐")
                     $(".pagination li.current-page").eq(currentPage - 1).addClass('active');
-                console.log('active 꺼짐')
+                    console.log('active 꺼짐')
                 }
             });
 
@@ -237,49 +235,50 @@ function addHTML(newsDto) {
   </div>
 </div>
                             </div>`
-  $('#news_list').append(tempHtml);
+    $('#news_list').append(tempHtml);
 
-  $(document).ready(function(){
-    $('.article').each(function(){
-      const content = $(this).children('.contentStr');
+    $(document).ready(function () {
+        $('.article').each(function () {
+            const content = $(this).children('.contentStr');
 
-      const content_txt = content.text();
-      const content_html = content.html();
-      const content_txt_short = content_txt.substring(0,150)+"...";
-      const btn_more = $('<button type="button" class="btn btn-outline-secondary btn-sm"><a href="javascript:void(0)" class="more">더보기</a></button>');
+            const content_txt = content.text();
+            const content_html = content.html();
+            const content_txt_short = content_txt.substring(0, 150) + "...";
+            const btn_more = $('<button type="button" class="btn btn-outline-secondary btn-sm"><a href="javascript:void(0)" class="more">더보기</a></button>');
 
-      $(this).append(btn_more);
+            $(this).append(btn_more);
 
-      if(content_txt.length >= 200){
-        content.html(content_txt_short)
+            if (content_txt.length >= 200) {
+                content.html(content_txt_short)
 
-      }else{
-        btn_more.hide()
-      }
+            } else {
+                btn_more.hide()
+            }
 
-      btn_more.click(toggle_content);
-      function toggle_content(){
-        if($(this).hasClass('short')){
-          $(this).html('더보기');
-          content.html(content_txt_short)
-          $(this).removeClass('short');
-        }else{
-          $(this).html('접기');
-          content.html(content_html);
-          $(this).addClass('short');
+            btn_more.click(toggle_content);
 
-        }
-      }
+            function toggle_content() {
+                if ($(this).hasClass('short')) {
+                    $(this).html('더보기');
+                    content.html(content_txt_short)
+                    $(this).removeClass('short');
+                } else {
+                    $(this).html('접기');
+                    content.html(content_html);
+                    $(this).addClass('short');
+
+                }
+            }
+        });
     });
-  });
 }
 
 function openModal(newsDto) {
-  $('#exampleModal').on('show.bs.modal', function () {
-    const modal = $(this)
-    modal.find('#newsId').val(newsDto.id);
-    modal.find('#title').val(newsDto.title);
-    modal.find('#url').val(newsDto.url);
-    modal.find('#contents').val('');
-  })
+    $('#exampleModal').on('show.bs.modal', function () {
+        const modal = $(this)
+        modal.find('#newsId').val(newsDto.id);
+        modal.find('#title').val(newsDto.title);
+        modal.find('#url').val(newsDto.url);
+        modal.find('#contents').val('');
+    })
 }
