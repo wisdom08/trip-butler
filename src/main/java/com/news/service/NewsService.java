@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.news.document.News;
 import com.news.dto.SearchRequestDto;
 import com.news.dto.util.SearchUtil;
-import com.news.helper.Indices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
@@ -27,8 +26,14 @@ public class NewsService {
     private final RestHighLevelClient client;
 
     public List<News> search(SearchRequestDto dto) {
-        final SearchRequest request = SearchUtil.buildSearchRequest(Indices.NEWS_INDEX, dto);
+        String[] sections = dto.getSection();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String index : sections) {
+            stringBuilder.append("newsv2-" + index + ",");
+        }
+        String indexName = stringBuilder.toString();
 
+        SearchRequest request = SearchUtil.buildSearchRequest(indexName, dto);
         return searchInternal(request);
     }
 
@@ -41,6 +46,8 @@ public class NewsService {
 
         try {
             final SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+            System.out.println(response.getHits().getTotalHits());
+
 
             final SearchHit[] searchHits = response.getHits().getHits();
             final List<News> newsList = new ArrayList<>(searchHits.length);
@@ -60,7 +67,6 @@ public class NewsService {
                         MAPPER.readValue(new ObjectMapper().writeValueAsString(hashMap), News.class)
                 );
             }
-
             return newsList;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
