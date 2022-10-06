@@ -4,13 +4,8 @@ import com.news.dto.SearchRequestDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,19 +29,19 @@ public class SearchUtil {
             }
 
             if (dto.getStartDate() == "" && mustNotList.length != 7) {
-                if(mustNot.contains("기타")){
+                if (mustNot.contains("기타")) {
                     boolQueryBuilder = QueryBuilders.boolQuery()
                             .filter(QueryBuilders.termsQuery("section", dto.getSection()))
                             .filter(QueryBuilders.rangeQuery("date").lte(dto.getEndDate()))
                             .filter(QueryBuilders.termsQuery("press", dto.getPress()))
                             .should(searchQuery);
-                } else{
+                } else {
                     boolQueryBuilder = QueryBuilders.boolQuery()
                             .filter(QueryBuilders.termsQuery("section", dto.getSection()))
                             .filter(QueryBuilders.rangeQuery("date").lte(dto.getEndDate()))
                             .mustNot(QueryBuilders.termsQuery("press", mustNotList))
                             .should(searchQuery);
-            }
+                }
             }
 
             if (dto.getStartDate() != "" && mustNotList.length == 7) {
@@ -57,13 +52,13 @@ public class SearchUtil {
             }
 
             if (dto.getStartDate() != "" && mustNotList.length != 7) {
-                if(mustNot.contains("기타")){
+                if (mustNot.contains("기타")) {
                     boolQueryBuilder = QueryBuilders.boolQuery()
                             .filter(QueryBuilders.termsQuery("section", dto.getSection()))
                             .filter(QueryBuilders.rangeQuery("date").gte(dto.getStartDate()).lte(dto.getEndDate()))
                             .filter(QueryBuilders.termsQuery("press", dto.getPress()))
                             .should(searchQuery);
-                } else{
+                } else {
                     boolQueryBuilder = QueryBuilders.boolQuery()
                             .filter(QueryBuilders.termsQuery("section", dto.getSection()))
                             .filter(QueryBuilders.rangeQuery("date").gte(dto.getStartDate()).lte(dto.getEndDate()))
@@ -76,9 +71,7 @@ public class SearchUtil {
                     .from(0)
                     .size(100)
                     .trackTotalHits(true)
-                    .highlighter(new HighlightBuilder().highlightQuery(searchQuery))
-                    .postFilter(boolQueryBuilder);
-
+                    .query(boolQueryBuilder);
 
             SearchRequest request = new SearchRequest(indexName);
             request.source(builder);
@@ -110,9 +103,8 @@ public class SearchUtil {
         }
         //if not, create a query builder
         MultiMatchQueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(dto.getSearchTerm(), "search_*")
-                .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
-                .fuzziness(Fuzziness.AUTO);
-
+                .operator(Operator.AND)
+                .type(MultiMatchQueryBuilder.Type.BEST_FIELDS);
         return queryBuilder;
     }
 }
