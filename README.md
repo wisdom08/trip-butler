@@ -1,7 +1,8 @@
 # your-news
 
 ## 배포
-- http://www.your-news.site
+- ~~http://www.your-news.site~~
+  - 비용 문제로 서버는 2022년 10월 17일에 내렸습니다.
 
 ## 개발 기간
 - 2022.08.26 ~ 2022.10.06
